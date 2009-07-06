@@ -13,11 +13,11 @@ Catalyst::View::Component::ESI - Include ESI in your templates
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 SYNOPSIS
 
@@ -61,6 +61,13 @@ sub _build__ua {
 	return $ua;
 }
 
+
+=head2 process
+
+Change esi-tags, to become the content of that page.
+
+=cut
+
 around 'process' => sub {
 	my $orig = shift;
 	my $self = shift;
@@ -81,6 +88,7 @@ around 'process' => sub {
 		my $cont = $self->_ua->get($url,%options)->content;
 		
 		# TODO: Fix content, and take out the things not supposed to be there?
+		# I think that it's all supposed to be there. ESI doesn't parse the result
 		
 		$body =~ s/\Q$esi\E/$cont/g;
 	}
@@ -90,3 +98,20 @@ around 'process' => sub {
 };
 
 1;
+
+=head1 SEE ALSO
+
+L<Catalyst>
+
+=head1 AUTHOR
+
+BjE<oslash>rn-Olav Strand E<lt>bo@startsiden.noE<gt>
+
+=head1 LICENSE
+
+Copyright 2009 by ABC Startsiden AS, BjE<oslash>rn-Olav Strand <bo@startsiden.no>.
+
+This program is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
+
+=cut
+
